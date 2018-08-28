@@ -6,6 +6,33 @@ import requests
 import pickle
 from gmplot import gmplot
 
+hour_colors = {
+    0: '#2E3291',
+    1: '#0353A4',
+    2: '#0072BA',
+    3: '#038FD5',
+    4: '#01ACEF',
+    5: '#00ABC5',
+    6: '#00A89E',
+    7: '#00A674',
+    8: '#03A652',
+    9: '#3AB54A',
+    10: '#8DC53E',
+    11: '#CADB2A',
+    12: '#FEF106',
+    13: '#FFC211',
+    14: '#F7941C',
+    15: '#F36522',
+    16: '#ED1B25',
+    17: '#ED1841',
+    18: '#ED145B',
+    19: '#EC0874',
+    20: '#ED008C',
+    21: '#BC1A8C',
+    22: '#92278F',
+    23: '#662E91'
+}
+
 
 def get_metas(path):
     metas = []
@@ -56,6 +83,7 @@ def plot_time_frequency(metas):
     plt.show()
 
 
+
 def main(path):
     if os.path.exists('metas.pkl'):
         with open('metas.pkl', 'rb') as file:
@@ -75,7 +103,8 @@ def main(path):
             continue
         from_lat, from_lng = meta['from_coords']
         to_lat, to_lng = meta['to_coords']
-        route_map.plot([from_lat, to_lat], [from_lng, to_lng])
+        hour = meta['time'].hour
+        route_map.plot([from_lat, to_lat], [from_lng, to_lng], color=hour_colors[hour], edge_width=2.0)
 
         all_lats.append(from_lat)
         all_lats.append(to_lat)
@@ -83,10 +112,6 @@ def main(path):
         all_lngs.append(to_lng)
     route_map.heatmap(all_lats, all_lngs, threshold=1, radius=50, opacity=0.9)
     route_map.draw('route_map.html')
-
-    heat_map = gmplot.GoogleMapPlotter(52.5200, 13.4050, 13)
-    heat_map.heatmap(all_lats, all_lngs, threshold=1, radius=70, opacity=0.8)
-    heat_map.draw('heat_map.html')
 
 
     print(sum(meta['price'] for meta in metas))
