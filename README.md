@@ -22,6 +22,8 @@ This tool extracts meta information from these PDF receipts for further analysis
 
 ### Create a heatmap of your visited spots
 
+![Demo](heatmap.jpg)
+
 Make sure to obtain a Google Maps API key.
 Set the environment variable:
 

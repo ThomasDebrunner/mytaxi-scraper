@@ -20,7 +20,7 @@ def get_metas(path):
 
 def main(path):
     metas = get_metas(path)
-    data = [('myTaxi', meta['date'].isoformat(), meta['price']) for meta in metas]
+    data = [('myTaxi', meta['price'], meta['date'].isoformat()) for meta in metas]
     df = pds.DataFrame(data)
     excelWriter = pds.ExcelWriter('bills.xlsx')
     df.to_excel(excelWriter, 'Sheet1')
